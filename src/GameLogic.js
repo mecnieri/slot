@@ -35,7 +35,7 @@ export const gameLogic = (app, reels, symbolTextures) => {
     }
 
 
-    // Reels done handler.
+    // Reels done handlers.
     const onReelsComplete = () => {
         runningLongSpin = false
         updateBalance(symbolsForResult)

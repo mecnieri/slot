@@ -2,7 +2,7 @@ import { SYMBOLS_INDEXES } from "./reelContent.js"
 
 const SYMBOL_SIZE = 128
 
-export const symbolsUpdate = (app, reels, slotTextures, symbolsForResult) => {
+export const symbolsUpdateTicker = (app, reels, symbolTextures, symbolsForResult) => {
   // Listen for animate update.
   app.ticker.add(delta => {
     // Update the slots.
@@ -13,7 +13,6 @@ export const symbolsUpdate = (app, reels, slotTextures, symbolsForResult) => {
       // This would be better if calculated with time in mind also. Now blur depends on frame rate.
       r.blur.blurY = (r.position - r.previousPosition) * 8
       r.previousPosition = r.position
-      // console.log(r.previousPosition)
       // Update symbol positions on reel.
       for (let j = 0; j < r.symbols.length; j++) {
         const s = r.symbols[j]
@@ -24,13 +23,13 @@ export const symbolsUpdate = (app, reels, slotTextures, symbolsForResult) => {
         if (s.y < 0 && prevy > SYMBOL_SIZE) {
           // Detect going over and swap a texture.
           // This should in proper product be determined from some logical reel.
+
+          // create symbols from content infinitely
           const Remainder =
             (Math.floor(r.position) + 3) % SYMBOLS_INDEXES.length
-          s.texture = slotTextures[SYMBOLS_INDEXES[Remainder]]
-          // s.texture =
-          //   slotTextures[Math.floor(Math.random() * slotTextures.length)]
+
+          s.texture = symbolTextures[SYMBOLS_INDEXES[Remainder]]
           console.log(s._texture.textureCacheIds[0])
-          // console.log(r.position)
           symbolsForResult.push(s._texture.textureCacheIds[0])
           s.scale.x = s.scale.y = Math.min(
             SYMBOL_SIZE / s.texture.width,

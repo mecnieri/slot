@@ -23,7 +23,7 @@ export const createShortSpin = (reels, tweening, onReelsCompleteFast) => {
 
   const r = reels[0]
   // const extra = Math.floor(Math.random() * 3)
-  const target = Math.floor(r.position) + 3
+  const target = Math.floor(r.position) + 4
   // const target = 13
   const time = 600
   let tw = tweenTo(

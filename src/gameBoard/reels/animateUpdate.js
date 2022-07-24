@@ -3,7 +3,7 @@ import { SYMBOLS_INDEXES } from "./reelContent.js"
 console.log(SYMBOLS_INDEXES)
 const SYMBOL_SIZE = 128
 
-export const animateUpdate = (app, reels, slotTextures, symbolsForResult) => {
+export const animateUpdate = (app, reels, symbolTextures, symbolsForResult) => {
   // Listen for animate update.
   app.ticker.add(delta => {
     // Update the slots.
@@ -26,9 +26,9 @@ export const animateUpdate = (app, reels, slotTextures, symbolsForResult) => {
           // Detect going over and swap a texture.
           // This should in proper product be determined from some logical reel.
 
-          s.texture = slotTextures[SYMBOLS_INDEXES[Math.floor(r.position + 3)]]
+          s.texture = symbolTextures[SYMBOLS_INDEXES[Math.floor(r.position + 3)]]
           // s.texture =
-          //   slotTextures[Math.floor(Math.random() * slotTextures.length)]
+          //   symbolTextures[Math.floor(Math.random() * symbolTextures.length)]
           console.log(s._texture.textureCacheIds[0])
           // console.log(r.position)
           symbolsForResult.push(s._texture.textureCacheIds[0])

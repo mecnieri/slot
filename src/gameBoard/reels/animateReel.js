@@ -1,6 +1,6 @@
 // Listen for animate update.
 
-export const animateReel = (app, tweening) => {
+export const movingReelTicker = (app, tweening) => {
   app.ticker.add(delta => {
     const now = Date.now()
     const remove = []

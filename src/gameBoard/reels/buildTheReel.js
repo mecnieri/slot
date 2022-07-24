@@ -5,7 +5,7 @@ import { borderWinnerSymbols } from "./winnerSymbols.js"
 // const REEL_WIDTH = 160
 const SYMBOL_SIZE = 128
 
-export const buildTheReel = (app, slotTextures) => {
+export const buildTheReel = (app, symbolTextures) => {
   let reels = []
   const reelContainer = new PIXI.Container()
   const rc = new PIXI.Container()
@@ -29,10 +29,8 @@ export const buildTheReel = (app, slotTextures) => {
 
   // Build the symbols
   for (let j = 0; j < 4; j++) {
-    // console.log(slotTextures)
-    console.log(slotTextures[SYMBOLS_INDEXES[j]].textureCacheIds[0])
-    const symbol = new PIXI.Sprite(slotTextures[SYMBOLS_INDEXES[3 - j]])
-    // console.log(symbol._texture.textureCacheIds[0])
+    console.log(symbolTextures[SYMBOLS_INDEXES[j]].textureCacheIds[0])
+    const symbol = new PIXI.Sprite(symbolTextures[SYMBOLS_INDEXES[3 - j]])
 
     // Scale the symbol to fit symbol area.
     symbol.y = j * SYMBOL_SIZE

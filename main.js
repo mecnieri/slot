@@ -9,7 +9,9 @@ import {
   createShortSpin,
 } from "./src/gameBoard/reels/createSpin.js"
 import { updateBalance } from "./src/businessLogic/updateBalance.js"
-import { borderWinnerSymbols } from "./src/gameBoard/reels/winnerSymbols.js"
+import { hideWinningSymbols } from "./src/businessLogic/winnerSymbols/hideWinningSymbols.js"
+import { displayWinnerSymbols } from "./src/businessLogic/winnerSymbols/displayWinnerSymbols.js"
+import { disablePlay } from "./src/businessLogic/disablePlayButton.js"
 
 let balance = 100
 const spinPrice = 1
@@ -45,7 +47,7 @@ function createGameBoard() {
     balanceElement.innerHTML -= spinPrice
     runningLong = true
     createLongSpin(reels, tweening, onReelsComplete)
-    hideWinningSymbols()
+    hideWinningSymbols(app)
   }
 
   const fastStop = () => {
@@ -61,7 +63,7 @@ function createGameBoard() {
     updateBalance(symbolsForResult, balanceElement)
     console.log(symbolsForResult)
     checkPlayButtonAbility(app)
-    displayWinnerSymbols(symbolsForResult)
+    displayWinnerSymbols(app, symbolsForResult)
     symbolsForResult.length = 0
   }
   function onReelsCompleteFast() {
@@ -69,7 +71,7 @@ function createGameBoard() {
     runningShort = false
     updateBalance(symbolsForResult, balanceElement)
     checkPlayButtonAbility(app)
-    displayWinnerSymbols(symbolsForResult)
+    displayWinnerSymbols(app, symbolsForResult)
     symbolsForResult.length = 0
   }
 
@@ -86,53 +88,4 @@ const checkPlayButtonAbility = app => {
   }
 }
 
-const disablePlay = app => {
-  const btn = app.stage.children.filter(c => c.name === "playBTN")[0]
-  const texture = PIXI.Texture.from("PLAY_DISABLED")
-  btn.texture = texture
-  btn.interactive = false
-  btn.buttonMode = false
-}
 
-const displayWinnerSymbols = symbolsForResult => {
-  let winners = defineWinnerPositions(symbolsForResult)
-  const top = app.stage.children.filter(c => c.name === "top")[0]
-  const middle = app.stage.children.filter(c => c.name === "middle")[0]
-  const bottom = app.stage.children.filter(c => c.name === "bottom")[0]
-  top.visible = winners[0]
-  middle.visible = winners[1]
-  bottom.visible = winners[2]
-}
-const hideWinningSymbols = () => {
-  const top = app.stage.children.filter(c => c.name === "top")[0]
-  const middle = app.stage.children.filter(c => c.name === "middle")[0]
-  const bottom = app.stage.children.filter(c => c.name === "bottom")[0]
-  top.visible = false
-  middle.visible = false
-  bottom.visible = false
-}
-
-const defineWinnerPositions = symbolsForResult => {
-  // first - top
-  // second - middle
-  // third - bottom
-  let arr = [false, false, false]
-  // first - bottom
-  // second - middle
-  // third - top
-  let symbols = symbolsForResult.slice(-4, -1)
-  if (symbols[0] === symbols[1]) {
-    arr[2] = true
-    arr[1] = true
-  }
-  if (symbols[0] === symbols[2]) {
-    arr[2] = true
-    arr[0] = true
-  }
-  if (symbols[1] === symbols[2]) {
-    arr[1] = true
-    arr[0] = true
-  }
-
-  return arr
-}

@@ -29,29 +29,33 @@ loadAndStart(app, createGameBoard)
 
 // after Assets Loaded create pixi board for the slot reel.
 function createGameBoard() {
+
   // Create different slot symbols.
   const slotTextures = creatingTextures()
-
   // Build the reel
   const reels = buildTheReel(app, slotTextures)
+  // Build bottom
+  addBottom(app, startRunningFirstSpin)
 
-  addBottom(app, startRunningLongSpin)
-  let runningLong = false
-  let runningShort = false
 
-  // Function to start running the reel.
-  function startRunningLongSpin() {
-    if (runningLong && runningShort) return
-    if (runningLong && !runningShort) return fastStop()
+  let runningFirstSpin = false
+  let runningSecond = false
+
+  // checks if it's first spin or second
+  // checks if it's possible to place a bet  
+  // hides previous winner symbols
+  function startRunningFirstSpin() {
+    if (runningFirstSpin && runningSecond) return
+    if (runningFirstSpin && !runningSecond) return startRunningSecondSpin()
     if (balanceElement.innerHTML < 1) return
     balanceElement.innerHTML -= spinPrice
-    runningLong = true
+    runningFirstSpin = true
     createLongSpin(reels, tweening, onReelsComplete)
     hideWinningSymbols(app)
   }
 
-  const fastStop = () => {
-    runningShort = true
+  const startRunningSecondSpin = () => {
+    runningSecond = true
     createShortSpin(reels, tweening, onReelsCompleteFast)
   }
 
@@ -59,7 +63,7 @@ function createGameBoard() {
 
   // Reels done handler.
   function onReelsComplete() {
-    runningLong = false
+    runningFirstSpin = false
     updateBalance(symbolsForResult, balanceElement)
     console.log(symbolsForResult)
     checkPlayButtonAbility(app)
@@ -67,8 +71,8 @@ function createGameBoard() {
     symbolsForResult.length = 0
   }
   function onReelsCompleteFast() {
-    runningLong = false
-    runningShort = false
+    runningFirstSpin = false
+    runningSecond = false
     updateBalance(symbolsForResult, balanceElement)
     checkPlayButtonAbility(app)
     displayWinnerSymbols(app, symbolsForResult)

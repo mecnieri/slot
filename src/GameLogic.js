@@ -1,19 +1,12 @@
-import { updateBalance } from "./businessLogic/updateBalance.js"
-import { hideWinningSymbols } from "./businessLogic/winnerSymbols/hideWinningSymbols.js"
+import { hideWinnerSymbols } from "./businessLogic/winnerSymbols/hideWinnerSymbols.js"
 import { displayWinnerSymbols } from "./businessLogic/winnerSymbols/displayWinnerSymbols.js"
-import { disablePlay } from "./businessLogic/disablePlayButton.js"
 import { movingReelTicker } from "./gameBoard/reels/animateReel.js"
 import { symbolsUpdateTicker } from "./gameBoard/reels/symbolsUpdate.js"
 import {
     createLongSpin,
     createShortSpin,
 } from "./gameBoard/reels/createSpin.js"
-
-
-let balance = 100
-const spinPrice = 1
-const balanceElement = document.getElementById("balance")
-balanceElement.innerHTML = balance
+import { handleBalanceAndBetting } from "./businessLogic/balanceAndBetting/handleBalanceAndBetting.js"
 
 export const gameLogic = (app, reels, symbolTextures) => {
     // there are two kind of spins:
@@ -23,32 +16,34 @@ export const gameLogic = (app, reels, symbolTextures) => {
     let runningShortSpin = false
     const tweens = []
     const symbolsForResult = []
+    const [isEnoughBalanceForBet, placeBet, updateBalance, checkPlayButtonAbility] = handleBalanceAndBetting(app, symbolsForResult)
 
-    function startRunningLongSpin() {
+
+    const startRunningLongSpin = () => {
         if (runningLongSpin && runningShortSpin) return
         if (runningLongSpin && !runningShortSpin) return startRunningShortSpin()
-        if (balanceElement.innerHTML < 1) return
-        balanceElement.innerHTML -= spinPrice
+        if (!isEnoughBalanceForBet()) return
         runningLongSpin = true
-        hideWinningSymbols(app)
+        placeBet()
+        hideWinnerSymbols(app)
         createLongSpin(reels, tweens, onReelsComplete)
     }
 
-    function startRunningShortSpin() {
+    const startRunningShortSpin = () => {
         runningShortSpin = true
         createShortSpin(reels, tweens, onReelsCompleteShort)
     }
 
 
     // Reels done handler.
-    function onReelsComplete() {
+    const onReelsComplete = () => {
         runningLongSpin = false
-        updateBalance(symbolsForResult, balanceElement)
+        updateBalance(symbolsForResult)
         checkPlayButtonAbility(app)
         displayWinnerSymbols(app, symbolsForResult)
         symbolsForResult.length = 0
     }
-    function onReelsCompleteShort() {
+    const onReelsCompleteShort = () => {
         runningShortSpin = false
         onReelsComplete()
     }
@@ -56,16 +51,9 @@ export const gameLogic = (app, reels, symbolTextures) => {
     symbolsUpdateTicker(app, reels, symbolTextures, symbolsForResult)
     movingReelTicker(app, tweens)
 
-
     return startRunningLongSpin
 }
 
 
 
 
-
-const checkPlayButtonAbility = app => {
-    if (balanceElement.innerHTML < spinPrice) {
-        disablePlay(app)
-    }
-}

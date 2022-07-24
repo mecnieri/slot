@@ -1,11 +1,11 @@
 // Listen for animate update.
 
-export const movingReelTicker = (app, tweening) => {
+export const movingReelTicker = (app, tweens) => {
   app.ticker.add(delta => {
     const now = Date.now()
     const remove = []
-    for (let i = 0; i < tweening.length; i++) {
-      const t = tweening[i]
+    for (let i = 0; i < tweens.length; i++) {
+      const t = tweens[i]
       const phase = Math.min(1, (now - t.start) / t.time)
 
       t.object[t.property] = lerp(
@@ -21,7 +21,7 @@ export const movingReelTicker = (app, tweening) => {
       }
     }
     for (let i = 0; i < remove.length; i++) {
-      tweening.splice(tweening.indexOf(remove[i]), 1)
+      tweens.splice(tweens.indexOf(remove[i]), 1)
     }
   })
 }

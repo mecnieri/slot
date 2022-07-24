@@ -1,6 +1,6 @@
-import { tweenTo } from "../reels/tweening.js"
+import { tweenTo } from "../reels/tweenTo.js"
 
-export const createLongSpin = (reels, tweening, onReelsComplete) => {
+export const createLongSpin = (reels, tweens, onReelsComplete) => {
   const r = reels[0]
   const extra = Math.floor(Math.random() * 3)
   const target = r.position + 10 + extra
@@ -14,12 +14,12 @@ export const createLongSpin = (reels, tweening, onReelsComplete) => {
     null,
     onReelsComplete,
   )
-  tweening.push(tw)
+  tweens.push(tw)
 
- }
+}
 
-export const createShortSpin = (reels, tweening, onReelsCompleteFast) => {
-  tweening.pop()
+export const createShortSpin = (reels, tweens, onReelsCompleteFast) => {
+  tweens.pop()
 
   const r = reels[0]
   // const extra = Math.floor(Math.random() * 3)
@@ -36,8 +36,8 @@ export const createShortSpin = (reels, tweening, onReelsCompleteFast) => {
     onReelsCompleteFast,
     // 0 === reels.length - 1 ? onReelsComplete : null,
   )
-  tweening.push(tw)
- }
+  tweens.push(tw)
+}
 
 // Backout function from tweenjs.
 // https://github.com/CreateJS/TweenJS/blob/master/src/tweenjs/Ease.js

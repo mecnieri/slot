@@ -21,10 +21,10 @@ function createGameBoard() {
   const symbolTextures = creatingTextures()
 
   // Build the reel
-  const reels = buildTheReel(app, symbolTextures)
+  const reel = buildTheReel(app, symbolTextures)
 
   // create game logic closure
-  const startRunningLongSpin = gameLogic(app, reels, symbolTextures)
+  const startRunningLongSpin = gameLogic(app, reel, symbolTextures)
   
   // Build bottom of the game board
   addBottom(app, startRunningLongSpin)

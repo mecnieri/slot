@@ -8,7 +8,7 @@ import {
 } from "./gameBoard/reels/createSpin.js"
 import { handleBalanceAndBetting } from "./businessLogic/balanceAndBetting/handleBalanceAndBetting.js"
 
-export const gameLogic = (app, reels, symbolTextures) => {
+export const gameLogic = (app, reel, symbolTextures) => {
     // there are two kind of spins:
     // on first click starts running long spin 
     // and on second click starts running short spin to end faster
@@ -26,29 +26,29 @@ export const gameLogic = (app, reels, symbolTextures) => {
         runningLongSpin = true
         placeBet()
         hideWinnerSymbols(app)
-        createLongSpin(reels, tweens, onReelsComplete)
+        createLongSpin(reel, tweens, onReelComplete)
     }
 
     const startRunningShortSpin = () => {
         runningShortSpin = true
-        createShortSpin(reels, tweens, onReelsCompleteShort)
+        createShortSpin(reel, tweens, onReelCompleteShort)
     }
 
 
-    // Reels done handlers.
-    const onReelsComplete = () => {
+    // Reel done handlers.
+    const onReelComplete = () => {
         runningLongSpin = false
         updateBalance(symbolsForResult)
         checkPlayButtonAbility(app)
         displayWinnerSymbols(app, symbolsForResult)
         symbolsForResult.length = 0
     }
-    const onReelsCompleteShort = () => {
+    const onReelCompleteShort = () => {
         runningShortSpin = false
-        onReelsComplete()
+        onReelComplete()
     }
 
-    symbolsUpdateTicker(app, reels, symbolTextures, symbolsForResult)
+    symbolsUpdateTicker(app, reel, symbolTextures, symbolsForResult)
     movingReelTicker(app, tweens)
 
     return startRunningLongSpin

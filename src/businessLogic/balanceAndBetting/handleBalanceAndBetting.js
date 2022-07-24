@@ -2,7 +2,7 @@ import { disablePlay } from "../disablePlayButton.js"
 import { countScore } from "../countScore.js"
 
 export const handleBalanceAndBetting = (app, symbolsForResult) => {
-    let balance = 1
+    let balance = 100
     const spinPrice = 1
     const balanceElement = document.getElementById("balance")
     balanceElement.innerHTML = balance

@@ -1,8 +1,8 @@
 // loadAndStart function gets 2 arguments
 // app - Pixi application
-// onAssetsLoaded - function which is executed after every asset is loaded
+// createGameBoard - function which is executed after every asset is loaded
 
-export const loadAndStart = (app, onAssetsLoaded) => {
+export const loadAndStart = (app, createGameBoard) => {
   app.loader
     .add("SYM01", "src/assets/SYM01.png")
     .add("SYM02", "src/assets/SYM02.png")
@@ -14,5 +14,5 @@ export const loadAndStart = (app, onAssetsLoaded) => {
     .add("PLAY_DISABLED", "src/assets/PLAY_DISABLED.png")
     .add("REEL", "src/assets/REEL.png")
     .add("WIN_BG", "src/assets/WIN_BG.png")
-    .load(onAssetsLoaded)
+    .load(createGameBoard)
 }

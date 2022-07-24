@@ -10,18 +10,17 @@ import { handleBalanceAndBetting } from "./businessLogic/balanceAndBetting/handl
 
 export const gameLogic = (app, reel, symbolTextures) => {
     // there are two kind of spins:
-    // on first click starts running long spin 
-    // and on second click starts running short spin to end faster
+    // on first click long spin starts running 
+    // on second click short spin starts running 
     let runningLongSpin = false
     let runningShortSpin = false
     const tweens = []
     const symbolsForResult = []
-    const [isEnoughBalanceForBet, placeBet, updateBalance, checkPlayButtonAbility] = handleBalanceAndBetting(app, symbolsForResult)
-
+    const [isEnoughBalanceForBet, placeBet, updateBalance, checkPlayButtonAviability] = handleBalanceAndBetting(app, symbolsForResult)
 
     const startRunningLongSpin = () => {
         if (runningLongSpin && runningShortSpin) return
-        if (runningLongSpin && !runningShortSpin) return startRunningShortSpin()
+        if (runningLongSpin) return startRunningShortSpin()
         if (!isEnoughBalanceForBet()) return
         runningLongSpin = true
         placeBet()
@@ -39,7 +38,7 @@ export const gameLogic = (app, reel, symbolTextures) => {
     const onReelComplete = () => {
         runningLongSpin = false
         updateBalance(symbolsForResult)
-        checkPlayButtonAbility(app)
+        checkPlayButtonAviability(app)
         displayWinnerSymbols(app, symbolsForResult)
         symbolsForResult.length = 0
     }

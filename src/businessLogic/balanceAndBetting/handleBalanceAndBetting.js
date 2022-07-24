@@ -11,7 +11,7 @@ export const handleBalanceAndBetting = (app, symbolsForResult) => {
     
     const placeBet = () => balanceElement.innerHTML -= spinPrice
 
-    const checkPlayButtonAbility = () => {
+    const checkPlayButtonAviability = () => {
         if (balanceElement.innerHTML < spinPrice) {
             disablePlay(app)
         }
@@ -20,5 +20,5 @@ export const handleBalanceAndBetting = (app, symbolsForResult) => {
         let score = countScore(symbolsForResult.slice(-4, -1))
         balanceElement.innerHTML = +balanceElement.innerHTML + score
     }
-    return [isEnoughBalanceForBet, placeBet, updateBalance, checkPlayButtonAbility]
+    return [isEnoughBalanceForBet, placeBet, updateBalance, checkPlayButtonAviability]
 }

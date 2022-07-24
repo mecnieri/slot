@@ -1,4 +1,6 @@
+import { addReelBackground } from "./reelBackground.js"
 import { SYMBOLS_INDEXES } from "./reelContent.js"
+import { borderWinnerSymbols } from "./winnerSymbols.js"
 
 // const REEL_WIDTH = 160
 const SYMBOL_SIZE = 128
@@ -7,8 +9,12 @@ export const buildTheReel = (app, slotTextures) => {
   let reels = []
   const reelContainer = new PIXI.Container()
   const rc = new PIXI.Container()
-  //   rc.x = i * REEL_WIDTH
+  rc.x = 6 
+  rc.y = 6
   reelContainer.addChild(rc)
+
+  addReelBackground(app)
+  borderWinnerSymbols(app)
 
   const reel = {
     container: rc,
